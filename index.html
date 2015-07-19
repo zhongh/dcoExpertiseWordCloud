@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+
 <body>
 <script src="d3.js"></script>
 <script src="d3.layout.cloud.js"></script>
 <script src="statsArray.js"></script>
-<!-- script src="wordCloud.js"></script -->
 <script type="text/javascript">
 //(function() {
-	 
+
     var fill = d3.scale.category20();
 
 /*
-     var leaders = ["Helloooo", "world", "normally", "you", "want", "morrrrre", "words",
-                "than", "this"].map(function(d) {
-                               return {text: d, size: 15 + Math.random() * 100, test: "haha"};
+    var leaders = ["Helloooo", "world", "normally", "you", "want", "morrrrre", "words",
+                    "than", "this"].map(function(d) {
+                                        return {text: d, size: 15 + Math.random() * 100, test: "haha"};
                                     });
 */
+
 /*
      d3.csv("http://orion.tw.rpi.edu/~zhonghao1014/stats.csv", function(data){
             var leaders = data
@@ -26,24 +27,17 @@
  
 */
 
-/*
-    leaders = [
-               {text: "worldmunidal", size: 30}
-               ]
-*/
-
 	 var layout =
-        d3.layout.cloud()
-         .size([750, 500])
-         .words(leaders)
-         .padding(5)
-         .rotate(function() { return ~~(Math.random() * 2) * 0; })
-         .font("Impact")
-         .fontSize(function(d) { return d.size; })
-         .on("end", draw);
-     //    .start();
-    //});
-    
+             d3.layout.cloud()
+                 .size([750, 500])
+                 .words(leaders)
+                 .padding(5)
+                 .rotate(function() { return ~~(Math.random() * 2) * 0; })
+                 .font("Impact")
+                 .fontSize(function(d) { return d.size; })
+                 .on("end", draw);
+     //          .start();
+
      layout.start();
 	 
 	 function draw(words) {
@@ -64,8 +58,9 @@
                })
          .text(function(d) { return d.text; });
 	 }
-	 
+
 //})();
+
 </script>
 
 
