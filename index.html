@@ -4,7 +4,7 @@
 <body>
 <script src="d3.js"></script>
 <script src="d3.layout.cloud.js"></script>
-<script src="statsArray.js"></script>
+<script src="query/statsArray.js"></script>
 <script type="text/javascript">
 //(function() {
 
@@ -56,7 +56,8 @@
          .attr("transform", function(d) {
                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
                })
-         .text(function(d) { return d.text; });
+         .text(function(d) { return d.text; })
+         .on("click", function(d) {window.open(d.link);});
 	 }
 
 //})();
