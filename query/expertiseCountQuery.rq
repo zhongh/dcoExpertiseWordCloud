@@ -37,4 +37,4 @@ WHERE
 FILTER (?expertiseUri != <http://info.deepcarbon.net/individual/a7bc1230-44af-4a01-84cf-e4d7bf5643d8>)
 }
 GROUP BY ?expertiseUri ?expertiseName
-ORDER BY ?expertiseName
+ORDER BY DESC(?count) ?expertiseName
