@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <meta charset="utf-8">
-<html>
 <head></head>
 
 <body>
@@ -8,167 +7,70 @@
 <script src="jquery-2.1.4.js"></script>
 <script src="d3.js"></script>
 <script src="d3.layout.cloud.js"></script>
-<script src="query/statsArray.js"></script>
+<!-- script src="query/garageItems.js"></script -->
 <script src="expertiseCountQuery.js"></script>
 <script type="text/javascript">
-//(function() {
-
-    console.log(theQueryRSJSON);
-/*
-    $.getJSON(theQueryRSJSONLocal,
+    var theQueryResult;
+    var leaders = [];   // emtry array to put in the data
+    function runQueryAndDrawWordCloud(){
+        jQuery.ajax(
             {
+                type: 'GET',
+                url: theQueryRSJSON,
+                dataType: 'json',
+                success: function(data) {
+                    console.log("Success in getting query result! Now continue to parse the result...");
+                    theQueryResult=data;
+                    for (var i=0; i<theQueryResult.results.bindings.length; i++){
+                        var item = {text: theQueryResult.results.bindings[i].expertiseName.value,
+                            link: theQueryResult.results.bindings[i].expertiseUri.value,
+                            size: Number(theQueryResult.results.bindings[i].count.value),};
+                        leaders.push(item);
+                    }
 
-            },
-            function(data) {
-                alert('data = ', data);
-            });
-*/
-
-
-/*
-    $(document).ready(function() {
-
-        jQuery.ajax({
-            type: 'GET',
-            url: theQueryRSJSONLocal,
-            dataType: 'jsonp',
-            success: function(data) {
-                alert('successhah ' + $(this).data()  );
+                    var fill = d3.scale.category20();
+                    var layout =
+                            d3.layout.cloud()
+                                    .size([750, 500])
+                                    .words(leaders)
+                                    .padding(5)
+                                    .rotate(function() { return ~~(Math.random() * 2) * 45; })
+                                    .font("Impact")
+                                    .fontSize(function(d) { return d.size; })
+                                    .on("end", draw);
+                    layout.start();
+                    function draw(words) {
+                        d3.select("body").append("svg")
+                            .attr("width", layout.size()[0])
+                            .attr("height", layout.size()[1])
+                            .attr("xmlns/:xlink", "http://www.w3.org/1999/xlink")
+                            .append("g")
+                            .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+                            .selectAll("text")
+                            .data(words)
+                            .enter()
+                            .append("a")
+                            .attr("xlink:href", function(d) { return d.link; })
+                            .attr("target", "_blank")
+                            .append("text")
+                            .style("font-size", function(d) { return d.size + "px"; })
+                            .style("font-family", "Impact")
+                            .style("fill", function(d, i) { return fill(i); })
+                            .attr("text-anchor", "middle")
+                            .attr("transform", function(d) {
+                                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                            })
+                            .text(function(d) { return d.text; });
+                    }
+                }
             }
-        });
-    });
-*/
-
-    var beer;
-    $.getJSON(theQueryRSJSON,function(json){
-        beer = json;
-        console.log(beer); // returns beer
-    });
-
-
-    var mydata;
-
-    jQuery.ajax({
-        'type': 'GET',
-        'url': theQueryRSJSON,
-        'dataType': 'jsonp',
-        success: function(data) {
-            window.alert('successhah ' + $(this).data()  );
-            mydata = data;
-
-        },
-        error: function(data) {
-            window.alert('errorrrrrhah ' + $(this).data()  );
-            mydata = data;
-        }
-    });
-
-//    console.log(mydata);
-
-
-
-//    $.ajax({
-//        type: "GET",
-//        //dataType: "jsonp",
-//        contentType: 'text/plain',
-//        url: theQuery,
-//        xhrFields: {
-//            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-//            // This can be used to set the 'withCredentials' property.
-//            // Set the value to 'true' if you'd like to pass cookies to the server.
-//            // If this is enabled, your server must respond with the header
-//            // 'Access-Control-Allow-Credentials: true'.
-//            withCredentials: false
-//        },
-//
-//        headers: {
-//            // Set any custom headers here.
-//            // If you set any non-simple headers, your server must include these
-//            // headers in the 'Access-Control-Allow-Headers' response header.
-//        },
-//        success: function() {
-//            // Here's where you handle a successful response.
-//        },
-//
-//        error: function() {
-//            // Here's where you handle an error response.
-//            // Note that if the error was due to a CORS issue,
-//            // this function will still fire, but there won't be any additional
-//            // information about the error.
-//        }
-////        crossDomain : true
-////        jsonpCallback: 'getJson',
-//    });
-
-
-
-
-var fill = d3.scale.category20();
-
-/*
-    var leaders = ["Helloooo", "world", "normally", "you", "want", "morrrrre", "words",
-                    "than", "this"].map(function(d) {
-                                        return {text: d, size: 15 + Math.random() * 100, test: "haha"};
-                                    });
-*/
-
-/*
-     d3.csv("http://orion.tw.rpi.edu/~zhonghao1014/stats.csv", function(data){
-            var leaders = data
-            .filter( function(d){ return +d.count > 0; })
-            .map( function(d){ return {text: d.expertiseName, size: +d.count}; })
-            .sort( function(a,b){ return d3.descending(a.size, b.size); })
-            .slice(0,50);
- 
-*/
-
-    var layout =
-         d3.layout.cloud()
-                 .size([750, 500])
-                 .words(leaders)
-                 .padding(5)
-                 .rotate(function() { return ~~(Math.random() * 2) * 0; })
-                 .font("Impact")
-                 .fontSize(function(d) { return d.size; })
-                 .on("end", draw);
-//                 .start();
-
-//    layout.on("mouseover", function(d) {window.alert(d.link);});
-
-    layout.start();
-
-    function draw(words) {
-        d3.select("body").append("svg")
-        .attr("width", layout.size()[0])
-        .attr("height", layout.size()[1])
-        .attr("xmlns/:xlink", "http://www.w3.org/1999/xlink")
-        .append("g")
-        .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
-        .selectAll("text")
-        .data(words)
-        .enter()
-        .append("a")
-        .attr("xlink:href", function(d) { return d.link; })
-        .attr("target", "_blank")
-        .append("text")
-        .style("font-size", function(d) { return d.size + "px"; })
-        .style("font-family", "Impact")
-        .style("fill", function(d, i) { return fill(i); })
-        .attr("text-anchor", "middle")
-        .attr("transform", function(d) {
-           return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-           })
-        .text(function(d) { return d.text; });
-//        .on("click", function(d) {window.open(d.link);});
+        );
     }
-
-//})();
-
+    runQueryAndDrawWordCloud();
 </script>
 </body>
 
 
-</html>
 
 
 

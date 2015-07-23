@@ -1,4 +1,12 @@
-var leaders = [
+/*
+var leadersSimpleWords = ["Helloooo", "world", "normally", "you", "want", "morrrrre", "words","than", "this"]
+    .map(function(d) {
+        return {text: d, size: 15 + Math.random() * 100, test: "haha"};
+        });
+*/
+
+/*
+var leadersStatic = [
 {text:"Abiogenic", size:12, link:"http://info.deepcarbon.net/individual/dc25b6009-d4e3-4898-a3b6-5942fd0a88dc"},
 {text:"Abiogenic Hydrocarbon Exploration", size:1, link:"http://info.deepcarbon.net/individual/75be8352d5b0a437013fa90dca"},
 {text:"Abiogenic/Biogenic", size:1, link:"http://info.deepcarbon.net/individual/cfa4c1e51dc164cca1a284d34b"},
@@ -575,3 +583,4 @@ var leaders = [
 {text:"volcanic emissions", size:1, link:"http://info.deepcarbon.net/individual/e208ea87228d720380ced2550e"},
 {text:"volcanism", size:1, link:"http://info.deepcarbon.net/individual/c4c2ab13007b3e31f264343140"},
 {text:"volcanoes", size:9, link:"http://info.deepcarbon.net/individual/d582dac88-31ae-4207-ac13-b0812c991d2e"}];
+*/

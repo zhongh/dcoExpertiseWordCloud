@@ -5,7 +5,7 @@ import string
 def Main():
     print("Hello World!")
     f = open('stats.csv', 'r')
-    fout = open('statsArray.js', 'w')
+    fout = open('/*fileName*/', 'w')
 
     f.readline()
     fout.write("var leaders = [\n")
