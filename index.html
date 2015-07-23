@@ -39,17 +39,32 @@
     });
 */
 
+    \
+    var beer;
+    $.getJSON(theQueryRSJSON,function(json){
+        beer = json;
+        console.log(beer); // returns beer
+    });
+
+
+    var mydata;
+
     jQuery.ajax({
-        type: 'GET',
-        url: theQueryRSJSON,
-        dataType: 'jsonp',
+        'type': 'GET',
+        'url': theQueryRSJSON,
+        'dataType': 'jsonp',
         success: function(data) {
             window.alert('successhah ' + $(this).data()  );
+            mydata = data;
+
         },
         error: function(data) {
             window.alert('errorrrrrhah ' + $(this).data()  );
+            mydata = data;
         }
     });
+
+//    console.log(mydata);
 
 
 
@@ -127,11 +142,16 @@ var fill = d3.scale.category20();
         d3.select("body").append("svg")
         .attr("width", layout.size()[0])
         .attr("height", layout.size()[1])
+        .attr("xmlns/:xlink", "http://www.w3.org/1999/xlink")
         .append("g")
         .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
         .selectAll("text")
         .data(words)
-        .enter().append("text")
+        .enter()
+        .append("a")
+        .attr("xlink:href", function(d) { return d.link; })
+        .attr("target", "_blank")
+        .append("text")
         .style("font-size", function(d) { return d.size + "px"; })
         .style("font-family", "Impact")
         .style("fill", function(d, i) { return fill(i); })
@@ -139,8 +159,8 @@ var fill = d3.scale.category20();
         .attr("transform", function(d) {
            return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
            })
-        .text(function(d) { return d.text; })
-        .on("click", function(d) {window.open(d.link);});
+        .text(function(d) { return d.text; });
+//        .on("click", function(d) {window.open(d.link);});
     }
 
 //})();
